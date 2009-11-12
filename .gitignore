@@ -1,0 +1,7 @@
+.DS_STORE
+*~
+Rlib/*
+!Rlib/.gitignore
+*.tar.gz
+testjava/*
+rMcKmeans.Rcheck/*
