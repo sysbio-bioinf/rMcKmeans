@@ -24,9 +24,9 @@ cne <- function(x, nruns, k.max=10, iter.max=10, plot=F, Xmx="512m", snp=F){
   file.remove(cneoutfile)
   # return result
   if(snp)
-    cent <- t(sapply((1:k)-1, function(u) apply(x[res==u,], 2, function(v) which.max(table(v))-1)))
+    cent <- t(sapply((1:k)-1, function(u) apply(x[res==u,,drop=F], 2, function(v) which.max(table(v))-1)))
   else
-    cent <- t(sapply((1:k)-1, function(u) {idx<-which(res==u);colSums(x[idx,])/length(idx)}))
+    cent <- t(sapply((1:k)-1, function(u) {idx<-which(res==u);colSums(x[idx,,drop=F])/length(idx)}))
   names(cent) <- NULL
   mca.cluster <- mean(res.cne[((k-1)*2)-1,-1])
   mca.base <- mean(res.cne[(k-1)*2,-1])

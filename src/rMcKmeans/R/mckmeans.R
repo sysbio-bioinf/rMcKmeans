@@ -19,9 +19,9 @@ mckmeans <- function(x, k=2, iter.max=10, Xmx="512m", snp=F){
   file.remove(outfile)
   # return result
   if(snp)
-    cent <- t(sapply((1:k)-1, function(u) apply(x[res==u,], 2, function(v) which.max(table(v))-1)))
+    cent <- t(sapply((1:k)-1, function(u) apply(x[res==u,,drop=F], 2, function(v) which.max(table(v))-1)))
   else
-    cent <- t(sapply((1:k)-1, function(u) {idx<-which(res==u);colSums(x[idx,])/length(idx)}))
+    cent <- t(sapply((1:k)-1, function(u) {idx<-which(res==u);colSums(x[idx,,drop=F])/length(idx)}))
   names(cent) <- NULL
   list(centers=cent, cluster=res)
 }
