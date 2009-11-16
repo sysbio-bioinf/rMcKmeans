@@ -7,7 +7,7 @@
   Perform a cluster number estimation on a data matrix.
 }
 \usage{
-cne(x, nruns, k.max=10, iter.max=10, plot=F)
+cne(x, nruns, k.max=10, iter.max=10, plot=F, Xmx="512m", snp=F)
 }
 \arguments{
   \item{x}{
@@ -29,6 +29,12 @@ cne(x, nruns, k.max=10, iter.max=10, plot=F)
   \item{plot}{
     Plot the results of the cluster number estimation.
   }
+  \item{Xmx}{
+    This sets the maximum memory heap size for Java to Xmx.
+  }  
+  \item{snp}{
+    Set this true, if clustering SNP data (categorical data encoded with 0,1,2).
+  }  
 }
 \details{
   This is a cluster number estimation via stability analysis. For every

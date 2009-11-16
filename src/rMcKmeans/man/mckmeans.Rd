@@ -7,21 +7,27 @@
   Perform k-means clustering on a data matrix.
 }
 \usage{
-mckmeans(x, k, iter.max)
+mckmeans(x, k, iter.max, Xmx, snp)
 }
 \arguments{
   \item{x}{
     A numeric matrix of data, or an object that can be coerced to
     such a matrix (such as a numeric vector or a data frame with
     all numeric columns).
-}
+  }
   \item{k}{
     The number of clusters. A random set of k (distinct)
     rows in `x' is chosen as the initial centres.
-}
+  }
   \item{iter.max}{
     The maximum number of iterations allowed.
-}
+  }
+  \item{Xmx}{
+    This sets the maximum memory heap size for Java to Xmx.
+  }
+    \item{snp}{
+    Set this true, if clustering SNP data (categorical data encoded with 0,1,2).
+  }
 }
 \details{
   This function is a wrapper to call the multi-core implementation of

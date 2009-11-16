@@ -1,12 +1,15 @@
-cne <- function(x, nruns, k.max=10, iter.max=10, plot=F){
+cne <- function(x, nruns, k.max=10, iter.max=10, plot=F, Xmx="512m", snp=F){
   x <- as.matrix(x)
   # write x to file
-  infile <- ".rmckmeans_infile.tmp"
+  if(snp)
+    infile <- ".rmckmeans_infile.snp"
+  else
+    infile <- ".rmckmeans_infile.tmp"
   outfile <- ".rmckmeans_outfile.tmp"
   cneoutfile <- ".rmckmeans_cneoutfile.tmp"
   write.table(x, infile, row.names=F, col.names=F, quote=F, sep="\t")
   # run McKmeans
-  system(paste("java -Xmx2g -jar", .mckmeansjar, "-i", infile, "-o", outfile, "--maxiter", iter.max, "--cne", "--cnemax", k.max, "--cneruns", nruns, "--cneoutfile", cneoutfile))
+  system(paste("java -Xmx", Xmx, " -jar ", .mckmeansjar, " -i ", infile, " -o ", outfile, " --maxiter ", iter.max, " --cne", " --cnemax ", k.max, " --cneruns ", nruns, " --cneoutfile ", cneoutfile, sep=""))
   # read results from file
   options(warn=-1)
   res <- as.matrix(read.table(outfile, sep=" ", header=F, quote=""))[1,]
@@ -20,7 +23,10 @@ cne <- function(x, nruns, k.max=10, iter.max=10, plot=F){
   file.remove(outfile)
   file.remove(cneoutfile)
   # return result
-  cent <- t(sapply((1:k)-1, function(u) {idx<-which(res==u);colSums(x[idx,])/length(idx)}))
+  if(snp)
+    cent <- t(sapply((1:k)-1, function(u) apply(x[res==u,], 2, function(v) which.max(table(v))-1)))
+  else
+    cent <- t(sapply((1:k)-1, function(u) {idx<-which(res==u);colSums(x[idx,])/length(idx)}))
   names(cent) <- NULL
   mca.cluster <- mean(res.cne[((k-1)*2)-1,-1])
   mca.base <- mean(res.cne[(k-1)*2,-1])
