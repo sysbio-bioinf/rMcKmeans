@@ -4,7 +4,7 @@ Title: A multi-core kmeans implementation based on Software Transactional Memory
 Version: 0.42
 Date: 2009-11-12
 Author: Johann M. Kraus
-Maintainer: Johann M. Kraus <johann.kraus@uni-ulm.de>
+Maintainer: Hans A. Kestler <hans.kestler@uni-ulm.de>
 Depends: R (>= 2.9.0)
 SystemRequirements: Java (>= 6.0)
 Description: This is a wrapper for the Java software McKmeans.jar. It provides access to the multi-core kmeans algorithm and the cluster number estimation method.

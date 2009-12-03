@@ -1,12 +1,14 @@
 mckmeans <- function(x, k=2, iter.max=10, Xmx="512m", snp=F){
   x <- as.matrix(x)
+  if(snp & any(x!=0 | x!=1 | x!=2))
+    stop("SNP files have to be encoded as 0,1,2 for 'homozygous reference', 'heterozygous', 'homozygous alternative'")
   # write x to file
   if(snp)
     infile <- ".rmckmeans_infile.snp"
   else
     infile <- ".rmckmeans_infile.tmp"
   outfile <- ".rmckmeans_outfile.tmp"
-  write.table(x, infile, row.names=F, col.names=F, quote=F, sep="\t")
+  write.table(x, infile, row.names=F, col.names=F, quote=F, sep=",")
   # run McKmeans
   system(paste("java -Xmx", Xmx, " -jar ", .mckmeansjar, " -i ", infile, " -o ", outfile, " -k ", k, " --maxiter ", iter.max, sep=""))
   # read results from file

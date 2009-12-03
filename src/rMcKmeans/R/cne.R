@@ -1,5 +1,7 @@
-cne <- function(x, nruns, k.max=10, iter.max=10, plot=F, Xmx="512m", snp=F){
+cne <- function(x, nruns=10, k.max=10, iter.max=10, plot=F, Xmx="512m", snp=F){
   x <- as.matrix(x)
+  if(snp & any(x!=0 | x!=1 | x!=2))
+    stop("SNP files have to be encoded as 0,1,2 for 'homozygous reference', 'heterozygous', 'homozygous alternative'")
   # write x to file
   if(snp)
     infile <- ".rmckmeans_infile.snp"
@@ -7,7 +9,7 @@ cne <- function(x, nruns, k.max=10, iter.max=10, plot=F, Xmx="512m", snp=F){
     infile <- ".rmckmeans_infile.tmp"
   outfile <- ".rmckmeans_outfile.tmp"
   cneoutfile <- ".rmckmeans_cneoutfile.tmp"
-  write.table(x, infile, row.names=F, col.names=F, quote=F, sep="\t")
+  write.table(x, infile, row.names=F, col.names=F, quote=F, sep=",")
   # run McKmeans
   system(paste("java -Xmx", Xmx, " -jar ", .mckmeansjar, " -i ", infile, " -o ", outfile, " --maxiter ", iter.max, " --cne", " --cnemax ", k.max, " --cneruns ", nruns, " --cneoutfile ", cneoutfile, sep=""))
   # read results from file
@@ -32,6 +34,8 @@ cne <- function(x, nruns, k.max=10, iter.max=10, plot=F, Xmx="512m", snp=F){
   mca.base <- mean(res.cne[(k-1)*2,-1])
   if(plot)
     cneplot(res.cne)
+  rownames(res.cne) <- sapply(2:k.max,function(i) c(paste("McKmeans k=",i,sep=""),paste("Random k=",i,sep="")))
+  res.cne <- res.cne[,-1]
   list(centers=cent, cluster=res, mca.cluster=mca.cluster, mca.base=mca.base, mca.all=res.cne)
 }
 
