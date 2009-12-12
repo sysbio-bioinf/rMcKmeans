@@ -1,15 +1,17 @@
-cne <- function(x, nruns=10, k.max=10, iter.max=10, plot=F, Xmx="512m", snp=F){
-  x <- as.matrix(x)
-  if(snp & any(x!=0 | x!=1 | x!=2))
-    stop("SNP files have to be encoded as 0,1,2 for 'homozygous reference', 'heterozygous', 'homozygous alternative'")
-  # write x to file
-  if(snp)
-    infile <- ".rmckmeans_infile.snp"
-  else
-    infile <- ".rmckmeans_infile.tmp"
+cne <- function(x, nruns=10, k.max=10, iter.max=10, plot=F, Xmx="512m", snp=F, infile=NULL){
+  if(is.null(infile)){
+    x <- as.matrix(x)
+    if(snp & any(x!=0 | x!=1 | x!=2))
+      stop("SNP files have to be encoded as 0,1,2 for 'homozygous reference', 'heterozygous', 'homozygous alternative'")
+    # write x to file
+    if(snp)
+      infile <- ".rmckmeans_infile.snp"
+    else
+      infile <- ".rmckmeans_infile.tmp"
+    write.table(x, infile, row.names=F, col.names=F, quote=F, sep=",")
+  }
   outfile <- ".rmckmeans_outfile.tmp"
   cneoutfile <- ".rmckmeans_cneoutfile.tmp"
-  write.table(x, infile, row.names=F, col.names=F, quote=F, sep=",")
   # run McKmeans
   system(paste("java -Xmx", Xmx, " -jar ", .mckmeansjar, " -i ", infile, " -o ", outfile, " --maxiter ", iter.max, " --cne", " --cnemax ", k.max, " --cneruns ", nruns, " --cneoutfile ", cneoutfile, sep=""))
   # read results from file
@@ -21,15 +23,20 @@ cne <- function(x, nruns=10, k.max=10, iter.max=10, plot=F, Xmx="512m", snp=F){
   colnames(res.cne) <- NULL
   options(warn=0) 
   # sweep tmp data
-  file.remove(infile)
+  if(is.null(infile))
+    file.remove(infile)
   file.remove(outfile)
   file.remove(cneoutfile)
   # return result
-  if(snp)
-    cent <- t(sapply((1:k)-1, function(u) apply(x[res==u,,drop=F], 2, function(v) which.max(table(v))-1)))
+  if(is.null(infile)){
+    if(snp)
+      cent <- t(sapply((1:k)-1, function(u) apply(x[res==u,,drop=F], 2, function(v) which.max(table(v))-1)))
+    else
+      cent <- t(sapply((1:k)-1, function(u) {idx<-which(res==u);colSums(x[idx,,drop=F])/length(idx)}))
+    names(cent) <- NULL
+  }
   else
-    cent <- t(sapply((1:k)-1, function(u) {idx<-which(res==u);colSums(x[idx,,drop=F])/length(idx)}))
-  names(cent) <- NULL
+    cent <- NA
   mca.cluster <- mean(res.cne[((k-1)*2)-1,-1])
   mca.base <- mean(res.cne[(k-1)*2,-1])
   if(plot)

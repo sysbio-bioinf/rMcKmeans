@@ -8,13 +8,15 @@
   parallelized K-means algorithm.
 }
 \usage{
-cne(x, nruns=10, k.max=10, iter.max=10, plot=F, Xmx="512m", snp=F)
+cne(x, nruns=10, k.max=10, iter.max=10, plot=F, Xmx="512m", snp=F,
+infile=NULL)
 }
 \arguments{
   \item{x}{
     A numeric matrix of data, or an object that can be coerced to
     such a matrix (such as a numeric vector or a data frame with
-    numeric columns only). Data is clustered row-wise.
+    numeric columns only). Data is clustered row-wise. Can be omitted,
+    if \code{infile} is given.
   }
   \item{nruns}{
     The number of repeated clusterings. For each k from 2 to \code{k.max},
@@ -36,7 +38,10 @@ cne(x, nruns=10, k.max=10, iter.max=10, plot=F, Xmx="512m", snp=F)
   \item{snp}{
     Set this to true, if clustering SNP data (categorical data encoded
     with 0,1,2 for 'homozygous reference', 'heterozygous', 'homozygous alternative').
-  }  
+  }
+  \item{infile}{
+    Path to the data file. If not set, x is taken as input data.
+  }
 }
 \details{
   This is a cluster number estimation via stability analysis. Data is

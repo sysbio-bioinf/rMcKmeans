@@ -8,13 +8,14 @@
   k-means algorithm.
 }
 \usage{
-mckmeans(x, k, iter.max, Xmx, snp)
+mckmeans(x, k, iter.max, nstart, Xmx, snp, infile)
 }
 \arguments{
   \item{x}{
     A numeric matrix of data, or an object that can be coerced to
     such a matrix (such as a numeric vector or a data frame with
-    numeric columns only). Data is clustered row-wise.
+    numeric columns only). Data is clustered row-wise. Can be omitted,
+    if \code{infile is specified}.
   }
   \item{k}{
     The number of clusters. A random set of k (distinct)
@@ -23,12 +24,18 @@ mckmeans(x, k, iter.max, Xmx, snp)
   \item{iter.max}{
     The maximum number of iterations allowed.
   }
+  \item{nstart}{
+    How many random sets should be chosen?
+  }
   \item{Xmx}{
     This sets the maximum memory heap size for Java to Xmx.
   }
-    \item{snp}{
+  \item{snp}{
     Set this to true if clustering SNP data (categorical data encoded
     with 0,1,2 for 'homozygous reference', 'heterozygous', 'homozygous alternative').
+  }
+  \item{infile}{
+    Path to the data file. If not set, x is taken as input data.
   }
 }
 \details{
