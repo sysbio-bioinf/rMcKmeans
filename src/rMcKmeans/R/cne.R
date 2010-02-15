@@ -14,7 +14,7 @@ cne <- function(x, nruns=10, k.max=10, iter.max=10, plot=F, Xmx="512m", snp=F, i
   outfile <- ".rmckmeans_outfile.tmp"
   cneoutfile <- ".rmckmeans_cneoutfile.tmp"
   # run McKmeans
-  system(paste("java -Xmx", Xmx, " -jar ", .mckmeansjar, " -i ", infile, " -o ", outfile, " --maxiter ", iter.max, " --cne", " --cnemax ", k.max, " --cneruns ", nruns, " --cneoutfile ", cneoutfile, sep=""))
+  system(paste("java -Xmx", Xmx, " -jar ", .mckmeansjar, " -i ", infile, " -o ", outfile, " --maxiter ", iter.max, " --cne", " --cnemax ", k.max, " --cneruns ", nruns, " --cnenstart ", nstart, " --cneoutfile ", cneoutfile, sep=""))
   # read results from file
   options(warn=-1)
   res <- as.matrix(read.table(outfile, sep=" ", header=F, quote=""))[1,]
@@ -24,8 +24,7 @@ cne <- function(x, nruns=10, k.max=10, iter.max=10, plot=F, Xmx="512m", snp=F, i
   colnames(res.cne) <- NULL
   options(warn=0) 
   # sweep tmp data
-  if(is.null(infile))
-    file.remove(infile)
+  file.remove(infile)
   file.remove(outfile)
   file.remove(cneoutfile)
   # return result

@@ -25,7 +25,7 @@ mckmeans(x, k, iter.max, nstart, Xmx, snp, infile)
     The maximum number of iterations allowed.
   }
   \item{nstart}{
-    How many random sets should be chosen?
+    The number of random restarts to be taken.
   }
   \item{Xmx}{
     This sets the maximum memory heap size for Java to Xmx.

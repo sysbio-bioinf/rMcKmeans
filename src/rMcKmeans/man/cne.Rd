@@ -8,6 +8,7 @@
   parallelized K-means algorithm.
 }
 \usage{
+cne(x, nruns=10, k.max=10, iter.max=10, nstart=10, plot=F, Xmx="512m", snp=F)
 cne(x, nruns=10, k.max=10, iter.max=10, plot=F, Xmx="512m", snp=F,
 infile=NULL)
 }
@@ -28,6 +29,10 @@ infile=NULL)
   }
   \item{iter.max}{
     The maximum number of iterations allowed.
+  }
+  \item{nstart}{
+    The number of random restarts to be taken for each
+    clustering. Default is 10 to reduce the effect of random initialization.
   }
   \item{plot}{
     Plot the results of the cluster number estimation.
