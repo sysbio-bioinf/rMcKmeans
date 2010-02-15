@@ -1,6 +1,7 @@
 
 mckmeans <- function(x, k=2, iter.max=10, nstart=1, Xmx="512m", snp=F, infile=NULL){
-  if(is.null(infile)){
+  datmode <- is.null(infile)
+  if(datmode){
     x <- as.matrix(x)
     if(snp & any(x!=0 | x!=1 | x!=2))
       stop("SNP files have to be encoded as 0,1,2 for 'homozygous reference', 'heterozygous', 'homozygous alternative'")
@@ -24,7 +25,7 @@ mckmeans <- function(x, k=2, iter.max=10, nstart=1, Xmx="512m", snp=F, infile=NU
   file.remove(infile)
   file.remove(outfile)
   # return result
-  if(is.null(infile)){
+  if(datmode){
     if(snp)
       cent <- t(sapply((1:k)-1, function(u) apply(x[res==u,,drop=F], 2, function(v) which.max(table(v))-1)))
     else
