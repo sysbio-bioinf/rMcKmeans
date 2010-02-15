@@ -1,4 +1,4 @@
-cne <- function(x, nruns=10, k.max=10, iter.max=10, plot=F, Xmx="512m", snp=F){
+cne <- function(x, nruns=10, k.max=10, iter.max=10, nstart=10, plot=F, Xmx="512m", snp=F){
   x <- as.matrix(x)
   if(snp & any(x!=0 | x!=1 | x!=2))
     stop("SNP files have to be encoded as 0,1,2 for 'homozygous reference', 'heterozygous', 'homozygous alternative'")
@@ -11,7 +11,7 @@ cne <- function(x, nruns=10, k.max=10, iter.max=10, plot=F, Xmx="512m", snp=F){
   cneoutfile <- ".rmckmeans_cneoutfile.tmp"
   write.table(x, infile, row.names=F, col.names=F, quote=F, sep=",")
   # run McKmeans
-  system(paste("java -Xmx", Xmx, " -jar ", .mckmeansjar, " -i ", infile, " -o ", outfile, " --maxiter ", iter.max, " --cne", " --cnemax ", k.max, " --cneruns ", nruns, " --cneoutfile ", cneoutfile, sep=""))
+  system(paste("java -Xmx", Xmx, " -jar ", .mckmeansjar, " -i ", infile, " -o ", outfile, " --maxiter ", iter.max, " --cne", " --cnemax ", k.max, " --cneruns ", nruns, " --cnenstart ", nstart, " --cneoutfile ", cneoutfile, sep=""))
   # read results from file
   options(warn=-1)
   res <- as.matrix(read.table(outfile, sep=" ", header=F, quote=""))[1,]

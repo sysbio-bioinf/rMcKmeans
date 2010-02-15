@@ -8,7 +8,7 @@
   k-means algorithm.
 }
 \usage{
-mckmeans(x, k, iter.max, Xmx, snp)
+mckmeans(x, k, iter.max, nstart, Xmx, snp)
 }
 \arguments{
   \item{x}{
@@ -22,6 +22,9 @@ mckmeans(x, k, iter.max, Xmx, snp)
   }
   \item{iter.max}{
     The maximum number of iterations allowed.
+  }
+  \item{nstart}{
+    The number of random restarts to be taken.
   }
   \item{Xmx}{
     This sets the maximum memory heap size for Java to Xmx.

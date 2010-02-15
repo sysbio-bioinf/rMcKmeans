@@ -1,5 +1,9 @@
-mckmeans <- function(x, k=2, iter.max=10, Xmx="512m", snp=F){
+mckmeans <- function(x, k=2, iter.max=10, nstart=1, Xmx="512m", snp=F){
   x <- as.matrix(x)
+  if(k > nrow(x))
+    stop("more cluster centers than distinct data points")
+  if(k < 2)
+    stop("k must be larger than 1")
   if(snp & any(x!=0 | x!=1 | x!=2))
     stop("SNP files have to be encoded as 0,1,2 for 'homozygous reference', 'heterozygous', 'homozygous alternative'")
   # write x to file
@@ -10,7 +14,7 @@ mckmeans <- function(x, k=2, iter.max=10, Xmx="512m", snp=F){
   outfile <- ".rmckmeans_outfile.tmp"
   write.table(x, infile, row.names=F, col.names=F, quote=F, sep=",")
   # run McKmeans
-  system(paste("java -Xmx", Xmx, " -jar ", .mckmeansjar, " -i ", infile, " -o ", outfile, " -k ", k, " --maxiter ", iter.max, sep=""))
+  system(paste("java -Xmx", Xmx, " -jar ", .mckmeansjar, " -i ", infile, " -o ", outfile, " -k ", k, " --maxiter ", iter.max, " --nstart ", nstart, sep=""))
   # read results from file
   options(warn=-1)
   res <- as.matrix(read.table(outfile, sep=" ", header=F, quote=""))[1,]
