@@ -8,9 +8,8 @@
   parallelized K-means algorithm.
 }
 \usage{
-cne(x, nruns=10, k.max=10, iter.max=10, nstart=10, plot=F, Xmx="512m", snp=F)
-cne(x, nruns=10, k.max=10, iter.max=10, plot=F, Xmx="512m", snp=F,
-infile=NULL)
+cne(x, nruns=10, k.max=10, iter.max=10, nstart=10, plot=F, Xmx="512m",
+snp=F, infile=NULL)
 }
 \arguments{
   \item{x}{

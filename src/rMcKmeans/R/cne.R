@@ -1,4 +1,4 @@
-cne <- function(x, nruns=10, k.max=10, iter.max=10, plot=F, Xmx="512m", snp=F, infile=NULL){
+cne <- function(x, nruns=10, k.max=10, iter.max=10, nstart=10, plot=F, Xmx="512m", snp=F, infile=NULL){
   datmode <- is.null(infile)
   if(datmode){
     x <- as.matrix(x)
