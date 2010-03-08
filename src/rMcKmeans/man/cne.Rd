@@ -8,7 +8,7 @@
   parallelized K-means algorithm.
 }
 \usage{
-cne(x, nruns=10, k.max=10, iter.max=10, nstart=10, plot=F, Xmx="512m",
+cne(x, nruns=10, k.min=2, k.max=10, iter.max=10, nstart=10, plot=F, Xmx="512m",
 snp=F, infile=NULL)
 }
 \arguments{
@@ -19,11 +19,15 @@ snp=F, infile=NULL)
     if \code{infile} is given.
   }
   \item{nruns}{
-    The number of repeated clusterings. For each k from 2 to \code{k.max},
+    The number of repeated clusterings. For each k from \code{k.min} to \code{k.max},
     \code{nruns} repeated runs of clustering are performed.
   }
+  \item{k.min}{
+    The minimal number of clusters. For each k from \code{k.min} to \code{k.max}, a
+    random set of k (distinct) rows in \code{x} is chosen as the initial centres.
+  }
   \item{k.max}{
-    The maximal number of clusters. For each k from 2 to \code{k.max}, a
+    The maximal number of clusters. For each k from \code{k.min} to \code{k.max}, a
     random set of k (distinct) rows in \code{x} is chosen as the initial centres.
   }
   \item{iter.max}{
@@ -50,7 +54,7 @@ snp=F, infile=NULL)
 \details{
   This is a cluster number estimation via stability analysis. Data is
   clustered row-wise. For each
-  k from 2 to \code{k.max} \code{nruns} repeated runs of clustering are
+  k from \code{k.min} to \code{k.max} \code{nruns} repeated runs of clustering are
   performed. Pairwise comparisons of these clusterings are performed via the MCA cluster
   validation method. The most stable result with respect to a random
   clustering is reported as the best clustering. If \code{plot} is true,
@@ -84,7 +88,7 @@ snp=F, infile=NULL)
              matrix(rnorm(100, mean = 1, sd = 0.3), ncol = 2))
   colnames(x) <- c("x", "y")
   \dontrun{
-  res <- cne(x, nruns=10, k.max=10, iter.max=100, plot=T)
+  res <- cne(x, nruns=10, k.min=2, k.max=10, iter.max=100, plot=T)
   }
 }
 \keyword{ cluster }

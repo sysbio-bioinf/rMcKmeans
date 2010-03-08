@@ -1,4 +1,6 @@
-cne <- function(x, nruns=10, k.max=10, iter.max=10, nstart=10, plot=F, Xmx="512m", snp=F, infile=NULL){
+cne <- function(x, nruns=10, k.min = 2, k.max=10, iter.max=10, nstart=10, plot=F, Xmx="512m", snp=F, infile=NULL){
+  if(k.min>=k.max)
+    stop("k.min must be smaller than k.max")
   datmode <- is.null(infile)
   if(datmode){
     x <- as.matrix(x)
@@ -14,7 +16,7 @@ cne <- function(x, nruns=10, k.max=10, iter.max=10, nstart=10, plot=F, Xmx="512m
   outfile <- ".rmckmeans_outfile.tmp"
   cneoutfile <- ".rmckmeans_cneoutfile.tmp"
   # run McKmeans
-  system(paste("java -Xmx", Xmx, " -jar ", .mckmeansjar, " -i ", infile, " -o ", outfile, " --maxiter ", iter.max, " --cne", " --cnemax ", k.max, " --cneruns ", nruns, " --cnenstart ", nstart, " --cneoutfile ", cneoutfile, sep=""))
+  system(paste("java -Xmx", Xmx, " -jar ", .mckmeansjar, " -i ", infile, " -o ", outfile, " --maxiter ", iter.max, " --cne", " --cnemin", k.min, " --cnemax ", k.max, " --cneruns ", nruns, " --cnenstart ", nstart, " --cneoutfile ", cneoutfile, sep=""))
   # read results from file
   options(warn=-1)
   res <- as.matrix(read.table(outfile, sep=" ", header=F, quote=""))[1,]

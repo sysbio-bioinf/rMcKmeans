@@ -35,6 +35,6 @@ Maintainer: Johann M. Kraus <johann.kraus@uni-ulm.de>
   x <- matrix(runif(50), nc=2)
   \dontrun{
   mckmeans(x, 2)
-  cne(x, 10, 10, plot=T)
+  cne(x, 2, 10, 10, plot=T)
 }
 }
