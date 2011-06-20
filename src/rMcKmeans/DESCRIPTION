@@ -1,8 +1,8 @@
 Package: rMcKmeans
 Type: Package
 Title: A multi-core kmeans implementation based on Software Transactional Memory
-Version: 0.42
-Date: 2009-11-12
+Version: 0.43
+Date: 2011-06-20
 Author: Johann M. Kraus
 Maintainer: Hans A. Kestler <hans.kestler@uni-ulm.de>
 Depends: R (>= 2.9.0)
