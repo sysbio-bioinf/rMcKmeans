@@ -1,3 +1,5 @@
+Put current version of McKmeans.jar in src/rMcKmeans/inst/java/
+
 R CMD check src/rMcKmeans
 R CMD build src/rMcKmeans
 R CMD INSTALL --library=Rlib src/rMcKmeans
