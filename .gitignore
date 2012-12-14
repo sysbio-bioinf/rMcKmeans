@@ -5,3 +5,4 @@ Rlib/*
 *.tar.gz
 testjava/*
 rMcKmeans.Rcheck/*
+src/rMcKmeans/inst/java/McKmeans.jar
