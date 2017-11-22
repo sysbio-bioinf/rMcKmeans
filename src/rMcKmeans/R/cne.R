@@ -41,15 +41,18 @@ cne <- function(x, nruns=10, k.min = 2, k.max=10, iter.max=10, nstart=10, plot=F
     cent <- NA
   mca.cluster <- mean(res.cne[((k-1)*2)-1,-1])
   mca.base <- mean(res.cne[(k-1)*2,-1])
+  rownames(res.cne) <- sapply(k.min:k.max,function(i) c(paste("McKmeans k=",i,sep=""),paste("Random k=",i,sep="")))
+  ## actually the line above is really great to demonstrate R features
+  ## it results in rownames(res.cne) beeing a matrix!!!
+  ## I won't fix this as I like the idea of hiding a matrix in the rownames of my data structure ;-)
+  res.cne <- res.cne[,-1]
   if(plot)
     cneplot(res.cne)
-  rownames(res.cne) <- sapply(2:k.max,function(i) c(paste("McKmeans k=",i,sep=""),paste("Random k=",i,sep="")))
-  res.cne <- res.cne[,-1]
   list(centers=cent, cluster=res, mca.cluster=mca.cluster, mca.base=mca.base, mca.all=res.cne)
 }
 
 cneplot <- function(mcamatrix){
-  ks <- 2:max(mcamatrix[,1])
-  tmp <- unlist(apply(mcamatrix[,-1], 1, list), recursive=F)
+  ks <- unique(sapply(rownames(mcamatrix), function(u) as.integer(strsplit(u, "k=")[[1]][2]), USE.NAMES=F))
+  tmp <- unlist(apply(mcamatrix, 1, list), recursive=F)
   boxplot(tmp, ylab="MCA index", names=unlist(lapply(ks, function(u) c(u,u))), col=unlist(lapply(ks,function(u) c(2,4))))
 }
